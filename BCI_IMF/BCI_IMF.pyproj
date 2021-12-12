@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>BCI_IMF</Name>
     <RootNamespace>BCI_IMF</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>--board-id 0 --serial-port COM3</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
