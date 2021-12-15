@@ -55,3 +55,5 @@ fig.set_figheight(8)
 
 plt.tight_layout()
 plt.show()
+
+class LivePlot():
