@@ -2,58 +2,44 @@ import random
 from itertools import count
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-
-plt.style.use('fivethirtyeight')
-
-x_vals = []
-y_vals = []
-
-index = count()
-
-fig = plt.figure()
-ax1 = fig.add_subplot(8,1,1)
-ax2 = fig.add_subplot(8,1,2)
-ax3 = fig.add_subplot(8,1,3)
-ax4 = fig.add_subplot(8,1,4)
-ax5 = fig.add_subplot(8,1,5)
-ax6 = fig.add_subplot(8,1,6)
-ax7 = fig.add_subplot(8,1,7)
-ax8 = fig.add_subplot(8,1,8)
-
-def animate(i):
-    x_vals.append(next(index))
-    y_vals.append(random.randint(0,5))
-
-    ax1.cla()
-    ax1.plot(x_vals,y_vals)
-
-    ax2.cla()
-    ax2.plot(x_vals,y_vals)
-
-    ax3.cla()
-    ax3.plot(x_vals,y_vals)
-
-    ax4.cla()
-    ax4.plot(x_vals,y_vals)
-
-    ax5.cla()
-    ax5.plot(x_vals,y_vals)
-
-    ax6.cla()
-    ax6.plot(x_vals,y_vals)
-
-    ax7.cla()
-    ax7.plot(x_vals,y_vals)
-
-    ax8.cla()
-    ax8.plot(x_vals,y_vals)
-
-ani = FuncAnimation(fig, animate, interval = 1000)
-
-fig.set_figwidth(14)
-fig.set_figheight(8)
-
-plt.tight_layout()
-plt.show()
+import numpy as np
 
 class LivePlot():
+    def __init__(self, channels, board):
+        self.channels = channels
+        self.figure = plt.figure() 
+        self.axs = []
+        self.lines = []
+        self.board = board
+        self.y_data = [[] for i in range(self.channels)]
+        self.figure.set_figwidth(14)
+        self.figure.set_figheight(10)
+        plt.style.use('fivethirtyeight')
+        plt.tight_layout()
+
+        for i in range(channels):
+            self.axs.append(self.figure.add_subplot(self.channels,1,(i+1)))
+        
+
+    def run(self):
+
+        x = np.linspace(0,125,self.board.sampling_rate)
+
+        for i in range(self.channels):
+            line, = self.axs[i].plot(x, np.random.rand(self.board.sampling_rate))
+            self.lines.append(line)
+
+            self.axs[i].set_xlim(0,125)
+            self.axs[i].set_ylim(-20000,20000)
+
+        self.figure.show()
+        
+        while True:
+            try:
+                data = self.board.get_streaming_data()
+                for i in range(len(self.lines)):
+                    self.lines[i].set_ydata(data[i])
+                self.figure.canvas.draw()
+                self.figure.canvas.flush_events()
+            except ValueError:
+                self.board.stop_streaming()

@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a3eaa3c4-22bd-49da-9890-b7594c3e5c28</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>live_plot.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
