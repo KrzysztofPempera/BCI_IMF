@@ -1,5 +1,6 @@
 import brainflow
 from brainflow.board_shim import BoardShim, BrainFlowInputParams
+from brainflow.data_filter import DataFilter, FilterTypes
 import time
 
 class Board():
@@ -22,6 +23,13 @@ class Board():
     def stop_streaming(self):
         self.active_board.stop_stream()
         self.active_board.release_session()
+
+    def filter_data(self, data):
+        for dat in data:
+            DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
+            DataFilter.perform_bandpass(dat, self.sampling_rate, 51, 100, 2, FilterTypes.BUTTERWORTH.value, 0)
+
+        return data
 
     def get_streaming_data(self):
         data = self.active_board.get_current_board_data(self.sampling_rate*self.timeframe)
