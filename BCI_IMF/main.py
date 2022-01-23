@@ -6,10 +6,11 @@ import numpy as np
 
 def main():
 
-    a_board = br.Board(2,'COM3') 
+    a_board = br.Board(0,'COM3') 
 
     a_board.start_streaming()
 
+    print(a_board.sampling_rate)
 
     plot = lp.LivePlot(8,a_board)
 
