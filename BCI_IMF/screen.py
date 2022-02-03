@@ -25,12 +25,12 @@ window.flip()
 
 def modulate_stimuli_opacity(stimuli, frame, freq, refresh_rate, phase_shift):
     time = frame/refresh_rate
-    stimuli.setOpacity((1 + sin(2 * pi * freq * time + phase_shift))/2)
+    stimuli.setOpacity((1 + sin(2 * pi * freq * time + phase_shift*pi))/2)
     stimuli.draw()
 
 def modulate_stimuli_colour(stimuli, frame, freq, refresh_rate, phase_shift):
     time = frame/refresh_rate
-    stimuli.setColor([-1,(1 + sin(2 * pi * freq * time + phase_shift))/2,-1])
+    stimuli.setColor([-1,(1 + sin(2 * pi * freq * time + phase_shift*pi))/2,-1])
     stimuli.draw()
 
 
@@ -39,9 +39,9 @@ while True:
 
     frame += 1
 
-    modulate_stimuli_colour(stimuli1,frame,freq,window.monitorFramePeriod,0)
-    modulate_stimuli_colour(stimuli2,frame,freq,window.monitorFramePeriod,0.5)
-    modulate_stimuli_colour(stimuli3,frame,freq,window.monitorFramePeriod,1)
+    modulate_stimuli_opacity(stimuli1,frame,freq,60,0)
+    modulate_stimuli_opacity(stimuli2,frame,freq,60,0.5)
+    modulate_stimuli_opacity(stimuli3,frame,freq,60,1)
 
     window.flip()
 
