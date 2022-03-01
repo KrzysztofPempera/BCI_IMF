@@ -11,8 +11,7 @@ class Board():
         self.active_board = BoardShim(board_id, params)
         self.sampling_rate = self.active_board.get_sampling_rate(board_id)
         self.channels = self.active_board.get_eeg_channels(board_id)
-        self.channels2 = self.active_board.get_exg_channels(board_id)
-        self.timeframe = 1
+        self.channels2 = self.active_board.get_exg_channels(board_id)   
 
 
     def start_streaming(self):
@@ -31,8 +30,8 @@ class Board():
 
         return data
 
-    def get_streaming_data(self):
-        data = self.active_board.get_current_board_data(self.sampling_rate*self.timeframe)
+    def get_streaming_data(self, timeframe):
+        data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
         data = data[1:9,:]
 
         return data

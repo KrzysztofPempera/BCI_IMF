@@ -42,7 +42,7 @@ class LivePlot():
         
         while True:
             try:
-                data = self.board.get_streaming_data()
+                data = self.board.get_streaming_data(1)
                 
                 data = self.board.filter_data(data)
                 

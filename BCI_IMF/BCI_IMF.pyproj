@@ -14,6 +14,7 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <CommandLineArguments>--board-id 0 --serial-port COM3</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,12 +28,18 @@
     <Compile Include="board.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="classifiers.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py" />
     <Compile Include="live_plot.py" />
     <Compile Include="screen.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="stimuli.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
