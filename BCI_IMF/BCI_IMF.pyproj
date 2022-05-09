@@ -33,6 +33,9 @@
     </Compile>
     <Compile Include="Program.py" />
     <Compile Include="live_plot.py" />
+    <Compile Include="ReferenceSignal.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="screen.py">
       <SubType>Code</SubType>
     </Compile>
