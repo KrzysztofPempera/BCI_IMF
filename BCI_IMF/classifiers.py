@@ -61,8 +61,6 @@ class classic_CCA():
         data = self.board.filter_data(data)
 
         ref_signal = self.generate_ref_signal(self.reference_signal,data.shape[1])
-
-        print(ref_signal.shape)
         
         correlations = self.calculate_correlations(data,ref_signal)
 

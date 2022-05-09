@@ -1,0 +1,11 @@
+{
+  "classifer": {
+    "type": "CCA",
+    "referenceSignal": "Auto_generated",
+    "dataChunk": "1"
+  },
+  "referenceSignals": {
+    "baseSignal": [10,0,0],
+    "phaseShift": [0,0.5,1]
+  }
+}

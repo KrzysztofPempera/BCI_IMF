@@ -4,6 +4,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from classifiers import classic_CCA
+from Settings import Config
 
 def main():
 
