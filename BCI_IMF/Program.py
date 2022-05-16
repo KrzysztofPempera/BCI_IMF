@@ -4,22 +4,12 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from classifiers import classic_CCA
-from Settings import Config
+from Settings import Config 
+from ReferenceSignal import ReferenceSignal as rs
+from multiprocessing import Process
+from screen import screen
 
 def main():
-
-    ref_signal = [2 * np.pi * 10, 2 * np.pi * 10 + 0.5*np.pi, 2 * np.pi * 10 + 1*np.pi]
-
-    a_board = br.Board(0,'COM3') 
-
-    a_board.start_streaming()
-
-
-    #plot = lp.LivePlot(8,a_board)
-
-    #plot.run()
-
-    classifier = classic_CCA(1, a_board, ref_signal)
 
     while True:
         time.sleep(1)
@@ -35,4 +25,25 @@ def main():
 
 
 if __name__ == "__main__":
+    settings = Config()
+
+    refSignalGen = rs(settings)
+
+    refSignal = refSignalGen.createReferenceSignals()
+
+    #activeBoard = br.Board(settings)
+
+    #boardStreaming = Process(target = activeBoard.start_streaming)
+
+    activeScreen = screen()
+
+    screenDisplay = Process(target = activeScreen.run())
+
+
+
+    #plot = lp.LivePlot(8,a_board)
+
+    #plot.run()
+
+    classifier = classic_CCA(1, activeBoard, refSignal)
     main()

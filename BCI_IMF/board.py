@@ -4,14 +4,14 @@ from brainflow.data_filter import DataFilter, FilterTypes
 import time
 
 class Board():
-    def __init__(self, board_id, serial_port):
+    def __init__(self, settings):
         
         params = BrainFlowInputParams()
-        params.serial_port = serial_port
-        self.active_board = BoardShim(board_id, params)
-        self.sampling_rate = self.active_board.get_sampling_rate(board_id)
-        self.channels = self.active_board.get_eeg_channels(board_id)
-        self.channels2 = self.active_board.get_exg_channels(board_id)   
+        params.serial_port = settings.boardPort
+        self.active_board = BoardShim(settings.boardId, params)
+        self.sampling_rate = self.active_board.get_sampling_rate(settings.boardId)
+        self.channels = self.active_board.get_eeg_channels(settings.boardId)
+        self.channels2 = self.active_board.get_exg_channels(settings.boardId)   
 
 
     def start_streaming(self):
@@ -23,16 +23,16 @@ class Board():
         self.active_board.stop_stream()
         self.active_board.release_session()
 
-    def filter_data(self, data):
-        for dat in data:
-            DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
-            DataFilter.perform_bandpass(dat, self.sampling_rate, 51, 100, 2, FilterTypes.BUTTERWORTH.value, 0)
+    #def filter_data(self, data):
+    #    for dat in data:
+    #        DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
+    #        DataFilter.perform_bandpass(dat, self.sampling_rate, 51, 100, 2, FilterTypes.BUTTERWORTH.value, 0)
 
-        return data
+    #    return data
 
-    def get_streaming_data(self, timeframe):
-        data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
-        data = data[1:9,:]
+    #def get_streaming_data(self, timeframe):
+    #    data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
+    #    data = data[1:9,:]
 
-        return data
+    #    return data
         
