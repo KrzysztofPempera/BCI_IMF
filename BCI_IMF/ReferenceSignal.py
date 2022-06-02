@@ -8,7 +8,7 @@ class ReferenceSignal():
         self.phaseShifts = config.phaseShifts
 
     def createReferenceSignals(self) -> list:
-        signalCount = len(self.baseSignal)*len(self.phaseShifts)
+        signalCount = len(self.baseSignals)*len(self.phaseShifts)
         refSignals = []
 
         for frequency in self.baseSignals:
@@ -18,4 +18,5 @@ class ReferenceSignal():
         return refSignals
 
     def __createReferenceSignal__(self, baseSignal, phaseShift) -> float:
-        refSignal = 2 * baseSignal * np.pi + phaseShift*np.pi
+         refSignal = 2 * baseSignal * np.pi + phaseShift*np.pi
+         return refSignal

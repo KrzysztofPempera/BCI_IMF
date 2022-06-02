@@ -5,13 +5,13 @@ import sys
 np.set_printoptions(threshold=sys.maxsize)
 
 class classic_CCA():
-    def __init__(self, n_components, board, reference_signal = None):
+    def __init__(self, n_components, timeframe, board, reference_signal = None):
         self.board = board
         self.n_components = n_components
         self.reference_signal = reference_signal
         self.sampling_rate = self.board.sampling_rate
         self.frequecies = ["0", "0.5", "1"]
-        self.timeframe = 1
+        self.timeframe = timeframe
         
 
     def generate_ref_signal(self, reference_signal, lenght):
@@ -55,10 +55,10 @@ class classic_CCA():
 
         return correlations
 
-    def process(self):
-        data = self.board.get_streaming_data(self.timeframe)
+    def process(self, dataList):
+        dataUn = self.board.get_streaming_data(self.timeframe)
 
-        data = self.board.filter_data(data)
+        data = self.board.filter_data(dataUn)
 
         ref_signal = self.generate_ref_signal(self.reference_signal,data.shape[1])
         
@@ -66,5 +66,9 @@ class classic_CCA():
 
         max_correlation = max(correlations,key = float)
         frequency = self.frequecies[np.argmax(correlations)]
+
+        for i in range(len(dataList)):
+            dataList[i].extend(dataUn[i])
+
 
         return max_correlation, frequency

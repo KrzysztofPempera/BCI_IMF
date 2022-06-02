@@ -8,10 +8,10 @@ class Board():
         
         params = BrainFlowInputParams()
         params.serial_port = settings.boardPort
-        self.active_board = BoardShim(settings.boardId, params)
-        self.sampling_rate = self.active_board.get_sampling_rate(settings.boardId)
-        self.channels = self.active_board.get_eeg_channels(settings.boardId)
-        self.channels2 = self.active_board.get_exg_channels(settings.boardId)   
+        self.active_board = BoardShim(settings.boardID, params)
+        self.sampling_rate = self.active_board.get_sampling_rate(settings.boardID)
+        self.channels = self.active_board.get_eeg_channels(settings.boardID)
+        self.channels2 = self.active_board.get_exg_channels(settings.boardID)   
 
 
     def start_streaming(self):
@@ -23,16 +23,16 @@ class Board():
         self.active_board.stop_stream()
         self.active_board.release_session()
 
-    #def filter_data(self, data):
-    #    for dat in data:
-    #        DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
-    #        DataFilter.perform_bandpass(dat, self.sampling_rate, 51, 100, 2, FilterTypes.BUTTERWORTH.value, 0)
+    def filter_data(self, data):
+        for dat in data:
+            DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
+            DataFilter.perform_bandpass(dat, self.sampling_rate, 51, 100, 2, FilterTypes.BUTTERWORTH.value, 0)
 
-    #    return data
+        return data
 
-    #def get_streaming_data(self, timeframe):
-    #    data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
-    #    data = data[1:9,:]
+    def get_streaming_data(self, timeframe):
+        data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
+        data = data[1:9,:]
 
-    #    return data
+        return data
         
