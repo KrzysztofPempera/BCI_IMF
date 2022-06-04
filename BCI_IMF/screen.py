@@ -34,9 +34,9 @@ class screen():
 
             self.frame += 1
 
-            self.__modulate_stimuli_opacity__(stimuli1, self.frame, 10, 60, 0)
-            self.__modulate_stimuli_opacity__(stimuli2, self.frame, 12, 60, 0.5)
-            self.__modulate_stimuli_opacity__(stimuli3, self.frame, 14, 60, 1)
+            self.__modulate_stimuli_opacity__(stimuli1, self.frame, self.freq, 60, 0)
+            self.__modulate_stimuli_opacity__(stimuli2, self.frame, 12, self.freq, 0.5)
+            self.__modulate_stimuli_opacity__(stimuli3, self.frame, 14, self.freq, 1)
 
             window.flip()
 

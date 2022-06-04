@@ -14,19 +14,20 @@ class classic_CCA():
         self.timeframe = timeframe
         
 
-    def generate_ref_signal(self, reference_signal, lenght):
+    def generate_ref_signal(self, lenght):
         time = np.linspace(0, lenght/self.sampling_rate, self.timeframe*self.sampling_rate )
         ref_signal = []
         
+        phase_shifts = [0,0.5,1]
 
-        for signal in reference_signal:
+        for shift in phase_shifts:
             temp_ref_signal = []
-            temp_ref_signal.append(np.sin(signal*time))
-            temp_ref_signal.append(np.cos(signal*time))
-            temp_ref_signal.append(np.sin(signal*2*time))
-            temp_ref_signal.append(np.cos(signal*2*time))
+            temp_ref_signal.append(np.sin(2 * np.pi * 10 * time + np.pi * shift))
+            temp_ref_signal.append(np.cos(2 * np.pi * 10 * time + np.pi * shift))
+            temp_ref_signal.append(np.sin(2 * np.pi * 10 * 2 * time + np.pi * shift))
+            temp_ref_signal.append(np.cos(2 * np.pi * 10 * 2 * time + np.pi * shift))
             
-            ref_signal.append( np.array(temp_ref_signal))
+            ref_signal.append(np.array(temp_ref_signal))
         
 
         ref_signal = np.array(ref_signal)
@@ -62,7 +63,7 @@ class classic_CCA():
 
         data = self.board.filter_data(dataUn)
 
-        ref_signal = self.generate_ref_signal(self.reference_signal,data.shape[1])
+        ref_signal = self.generate_ref_signal(data.shape[1])
         
         correlations = self.calculate_correlations(data,ref_signal)
 

@@ -66,12 +66,9 @@ if __name__ == "__main__":
     
     #refSignalGen = rs(settings)
 
-    #refSignal = refSignalGen.createReferenceSignals()
+    #refSignal = refSignalGen.createReferenceSignals() 
 
-    
-    ref_signal = [2 * np.pi * 10, 2 * np.pi * 12 + 0.5*np.pi, 2 * np.pi * 14 + 1*np.pi]
-
-    classifier = classic_CCA(1, 1, activeBoard, refSignal)
+    classifier = classic_CCA(1, 1, activeBoard)
 
     times = 0
 
