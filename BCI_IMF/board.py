@@ -16,7 +16,7 @@ class Board():
 
     def start_streaming(self):
         self.active_board.prepare_session()
-        self.active_board.start_stream(45000)
+        self.active_board.start_stream(900000)
         time.sleep(2)
 
     def stop_streaming(self):
@@ -26,13 +26,15 @@ class Board():
     def filter_data(self, data):
         for dat in data:
             DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
-            DataFilter.perform_bandpass(dat, self.sampling_rate, 51, 100, 2, FilterTypes.BUTTERWORTH.value, 0)
+            DataFilter.perform_bandpass(dat, self.sampling_rate, 19, 26, 2, FilterTypes.BUTTERWORTH.value, 0)
+
+        
 
         return data
 
     def get_streaming_data(self, timeframe):
         data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
-        data = data[1:9,:]
+        data = data[1:7,:]
 
         return data
         

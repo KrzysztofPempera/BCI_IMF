@@ -23,6 +23,8 @@ class classic_CCA():
             temp_ref_signal = []
             temp_ref_signal.append(np.sin(signal*time))
             temp_ref_signal.append(np.cos(signal*time))
+            temp_ref_signal.append(np.sin(signal*2*time))
+            temp_ref_signal.append(np.cos(signal*2*time))
             
             ref_signal.append( np.array(temp_ref_signal))
         
