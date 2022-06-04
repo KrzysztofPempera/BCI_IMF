@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     #refSignal = refSignalGen.createReferenceSignals() 
 
-    classifier = classic_CCA(1, 1, activeBoard)
+    classifier = classic_CCA(1, 5, activeBoard)
 
     times = 0
 

@@ -42,7 +42,7 @@ class classic_CCA():
         for j in range(0,data.shape[0]):
 
             channel_data = data[j]
-            channel_data = np.array(channel_data).reshape(tuple([1,250]))
+            channel_data = np.array(channel_data).reshape(tuple([1,1250]))
 
 
             for i in range(0,reference_signal.shape[0]):
