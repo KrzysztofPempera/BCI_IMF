@@ -58,7 +58,7 @@ class classic_CCA():
 
         return correlations
 
-    def process(self, dataList):
+    def process(self):
         dataUn = self.board.get_streaming_data(self.timeframe)
 
         data = self.board.filter_data(dataUn)
@@ -70,8 +70,6 @@ class classic_CCA():
         max_correlation = max(correlations,key = float)
         frequency = self.frequecies[np.argmax(correlations)]
 
-        for i in range(len(dataList)):
-            dataList[i].extend(dataUn[i])
 
 
         return max_correlation, frequency

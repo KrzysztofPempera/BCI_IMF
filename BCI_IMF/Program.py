@@ -6,15 +6,15 @@ import numpy as np
 from classifiers import classic_CCA
 from Settings import Config 
 from ReferenceSignal import ReferenceSignal as rs
-from multiprocessing import Process, Queue, Event
+from multiprocessing import Process, Value, Event
 import DataService as ds
 import csv
 import screen as sc
 
 
-def drawScreen(start_program):
+def drawScreen(start_program, quit_program, current_stimuli):
     activeScreen = sc.screen()
-    activeScreen.run(start_program)
+    activeScreen.run(start_program, quit_program, current_stimuli)
 
 
 #def gatherData(dataService, dataList, activeBoard):
@@ -33,57 +33,65 @@ def extract_data(dataList):
 
 def extract_data_classifier(dataClassifier):
     with open('dataClassifier.csv','w', newline='') as csvfile:
-        label = ['rPearson', 'stimuli']
+        label = ['rPearson', 'stimuli_predicted','stimuli']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         for i in range(len(dataClassifier[0])):
-            theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli':dataClassifier[1][i]})
+            theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli':dataClassifier[2][i]})
 
 if __name__ == "__main__":
 
     settings = Config()
 
-    #activeBoard = br.Board(settings)
+    activeBoard = br.Board(settings)
 
-    #activeBoard.start_streaming()
+    activeBoard.start_streaming()
 
     data = [[] for i in range(6)]
-    dataClassifier = [[] for i in range(2)]
+    dataClassifier = [[] for i in range(3)]
 
-    start_program = Event() 
+    start_program = Event()
+    quit_program = Event()
+    current_stimuli = Value('d',0.0)
     
     #refSignalGen = rs(settings)
 
     #refSignal = refSignalGen.createReferenceSignals() 
 
-    #classifier = classic_CCA(1, 5, activeBoard)
+    classifier = classic_CCA(1, 1, activeBoard)
 
-    times = 0
+    first = True
 
-    screenDisplay = Process(target = drawScreen, args = (start_program,))
+    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli,))
     screenDisplay.start()
 
-    #while True: 
-    #    if start_program.is_set():
-    #        times += 1
+    temp = 0
+
+    while True: 
+        if start_program.is_set():
+            if first:
+                dataDump = activeBoard.active_board.get_board_data()
+                time.sleep(5.5)
+                first = False
         
-        
-    #        result = classifier.process(data)
+            temp += 1
+            result = classifier.process()
 
-    #        dataClassifier[0].append(result[0])
-    #        dataClassifier[1].append(result[1])
-    #        print(result)
+            dataClassifier[0].append(result[0])
+            dataClassifier[1].append(result[1])
+            dataClassifier[2].append(current_stimuli.value)
+            print(result, current_stimuli.value)
 
-    #        time.sleep(1)
 
-    #        if times == 91:
-    #            screenDisplay.terminate()
-    #            screenDisplay.join()
-    #            break
+            if quit_program.is_set():
+                screenDisplay.terminate()
+                screenDisplay.join()
+                break
 
-    #extract_data(data)
-    #extract_data_classifier(dataClassifier)
-    #activeBoard.stop_streaming()
-
+    dataTest= activeBoard.active_board.get_board_data()[1:7,:]
+    extract_data(dataTest)
+    extract_data_classifier(dataClassifier)
+    activeBoard.stop_streaming()
+    print(temp)
 
 
 
