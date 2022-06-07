@@ -50,25 +50,17 @@ class screen():
             if start_program.is_set():
                 self.start_frame += 1
 
-                if self.start_frame >= 300 and self.start_frame <= 900:
+                if self.start_frame >= 60 and self.start_frame <= 960:
                     marker1.draw()
 
-                elif self.start_frame >=1200 and self.start_frame <= 1800:
+                elif self.start_frame >=1080 and self.start_frame <= 1980:
                     marker2.draw()
 
-                elif self.start_frame >= 2100 and self.start_frame <= 2700:
+                elif self.start_frame >= 2100 and self.start_frame <= 3000:
                     marker3.draw()
 
-                elif self.start_frame >= 3000 and self.start_frame <= 3600:
-                    marker1.draw()
 
-                elif self.start_frame >= 3900 and self.start_frame <= 4500:
-                    marker2.draw()
-
-                elif self.start_frame >= 4800 and self.start_frame <= 5400:
-                    marker3.draw()
-
-                elif self.start_frame == 5500:
+                elif self.start_frame == 3030:
                     core.quit()
                     break
 
