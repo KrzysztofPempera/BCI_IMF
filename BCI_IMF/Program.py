@@ -11,19 +11,6 @@ import DataService as ds
 import csv
 import screen as sc
 
-#def main():
-
-
-#    while True:
-#        time.sleep(1)
-
-#        try:
-#            print(classifier.process())
-
-#        except ValueError:
-#            a_board.stop_streaming()
-
-#    a_board.stop_streaming()
 
 def drawScreen(start_program):
     activeScreen = sc.screen()
@@ -55,9 +42,9 @@ if __name__ == "__main__":
 
     settings = Config()
 
-    activeBoard = br.Board(settings)
+    #activeBoard = br.Board(settings)
 
-    activeBoard.start_streaming()
+    #activeBoard.start_streaming()
 
     data = [[] for i in range(6)]
     dataClassifier = [[] for i in range(2)]
@@ -68,34 +55,34 @@ if __name__ == "__main__":
 
     #refSignal = refSignalGen.createReferenceSignals() 
 
-    classifier = classic_CCA(1, 5, activeBoard)
+    #classifier = classic_CCA(1, 5, activeBoard)
 
     times = 0
 
     screenDisplay = Process(target = drawScreen, args = (start_program,))
     screenDisplay.start()
 
-    while True: 
-        if start_program.is_set():
-            times += 1
+    #while True: 
+    #    if start_program.is_set():
+    #        times += 1
         
         
-            result = classifier.process(data)
+    #        result = classifier.process(data)
 
-            dataClassifier[0].append(result[0])
-            dataClassifier[1].append(result[1])
-            print(result)
+    #        dataClassifier[0].append(result[0])
+    #        dataClassifier[1].append(result[1])
+    #        print(result)
 
-            time.sleep(1)
+    #        time.sleep(1)
 
-            if times == 91:
-                screenDisplay.terminate()
-                screenDisplay.join()
-                break
+    #        if times == 91:
+    #            screenDisplay.terminate()
+    #            screenDisplay.join()
+    #            break
 
-    extract_data(data)
-    extract_data_classifier(dataClassifier)
-    activeBoard.stop_streaming()
+    #extract_data(data)
+    #extract_data_classifier(dataClassifier)
+    #activeBoard.stop_streaming()
 
 
 

@@ -10,7 +10,7 @@ class classic_CCA():
         self.n_components = n_components
         self.reference_signal = reference_signal
         self.sampling_rate = self.board.sampling_rate
-        self.frequecies = ["0", "0.5", "1"]
+        self.frequecies = ["0", "0.35", "1.65"]
         self.timeframe = timeframe
         
 
@@ -18,7 +18,7 @@ class classic_CCA():
         time = np.linspace(0, lenght/self.sampling_rate, self.timeframe*self.sampling_rate )
         ref_signal = []
         
-        phase_shifts = [0,0.5,1]
+        phase_shifts = [0,0.35,1.65]
 
         for shift in phase_shifts:
             temp_ref_signal = []
@@ -42,7 +42,7 @@ class classic_CCA():
         for j in range(0,data.shape[0]):
 
             channel_data = data[j]
-            channel_data = np.array(channel_data).reshape(tuple([1,1250]))
+            channel_data = np.array(channel_data).reshape(tuple([1,250]))
 
 
             for i in range(0,reference_signal.shape[0]):
