@@ -39,22 +39,17 @@ class classic_CCA():
 
         correlations = np.zeros(reference_signal.shape[0])
 
-        for j in range(0,data.shape[0]):
+        cca_data = np.array(data[:]).reshape(6,250)
 
-            channel_data = data[j]
-            channel_data = np.array(channel_data).reshape(tuple([1,250]))
+        for i in range(0,reference_signal.shape[0]):
+            freq = np.squeeze(reference_signal[i,:,:]).T
 
+            cca.fit(cca_data.T,freq)
+            x,y = cca.transform(cca_data.T,freq)
 
-            for i in range(0,reference_signal.shape[0]):
-                freq = np.squeeze(reference_signal[i,:,:]).T
+            p_correlation = np.corrcoef(x[:,0],y[:,0])[0,1]
 
-                cca.fit(channel_data.T,freq)
-                x,y = cca.transform(channel_data.T,freq)
-
-                p_correlation = np.corrcoef(x[:,0],y[:,0])[0,1]
-
-                if correlations[i] < p_correlation:
-                    correlations[i] = p_correlation
+            correlations[i] = p_correlation
 
         return correlations
 

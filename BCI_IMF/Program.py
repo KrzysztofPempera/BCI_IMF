@@ -9,12 +9,12 @@ from ReferenceSignal import ReferenceSignal as rs
 from multiprocessing import Process, Value, Event
 import DataService as ds
 import csv
-import screen as sc
+#import screen as sc
 
 
-def drawScreen(start_program, quit_program, current_stimuli):
-    activeScreen = sc.screen()
-    activeScreen.run(start_program, quit_program, current_stimuli)
+#def drawScreen(start_program, quit_program, current_stimuli):
+#    activeScreen = sc.screen()
+#    activeScreen.run(start_program, quit_program, current_stimuli)
 
 
 #def gatherData(dataService, dataList, activeBoard):
@@ -61,8 +61,10 @@ if __name__ == "__main__":
 
     first = True
 
-    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli,))
-    screenDisplay.start()
+    start_program.set()
+
+    #screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli,))
+    #screenDisplay.start()
 
     temp = 0
 
@@ -82,15 +84,15 @@ if __name__ == "__main__":
             print(result, current_stimuli.value)
 
 
-            if quit_program.is_set():
-                screenDisplay.terminate()
-                screenDisplay.join()
-                break
+            #if quit_program.is_set():
+            #    screenDisplay.terminate()
+            #    screenDisplay.join()
+            #    break
 
     dataTest= activeBoard.active_board.get_board_data()[1:7,:]
     extract_data(dataTest)
     extract_data_classifier(dataClassifier)
-    activeBoard.stop_streaming()
+    #activeBoard.stop_streaming()
     print(temp)
 
 
