@@ -4,8 +4,8 @@ import random
 
 class screen():
     def __init__(self):
-        self.height = 720
-        self.width = 1280
+        self.height = 900
+        self.width = 1600
         self.frame = 0
         self.start_frame = 0
         self.freq = 10
@@ -16,13 +16,13 @@ class screen():
 
         window = visual.Window([self.width,self.height], monitor = "testMonitor", units = 'pix', fullscr = False, color = [-1,-1,-1])
 
-        stimuli1 = visual.Rect(win = window, size = 300, units = 'pix', fillColor = self.stimuli_colour, pos =(-400, 0))
-        stimuli2 = visual.Rect(win = window, size = 300, units = 'pix', fillColor = self.stimuli_colour, pos =(0, 0))
-        stimuli3 = visual.Rect(win = window, size = 300, units = 'pix', fillColor = self.stimuli_colour, pos =(400, 0))
+        stimuli1 = visual.Rect(win = window, size = 200, units = 'pix', fillColor = self.stimuli_colour, pos =(-600, 300))
+        stimuli2 = visual.Rect(win = window, size = 200, units = 'pix', fillColor = self.stimuli_colour, pos =(0, 0))
+        stimuli3 = visual.Rect(win = window, size = 200, units = 'pix', fillColor = self.stimuli_colour, pos =(600, -300))
 
-        marker1 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(-400, 300))
+        marker1 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(-600, 0))
         marker2 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(0, 300))
-        marker3 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(400, 300))
+        marker3 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(600, 0))
 
         stimuli1.draw()
         stimuli2.draw()
