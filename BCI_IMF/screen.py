@@ -10,7 +10,7 @@ class screen():
         self.start_frame = 0
         self.freq = 10
         self.screen_freq = 60
-        self.classifier_timeframe = 5
+        self.classifier_timeframe = 1
         self.stimuli_colour = [-1,1,-1]
 
 
@@ -36,9 +36,9 @@ class screen():
 
             self.frame += 1
 
-            self.__modulate_stimuli_opacity__(stimuli1, self.frame, self.freq, self.screen_freq, 0)
-            self.__modulate_stimuli_opacity__(stimuli2, self.frame, self.freq, self.screen_freq, 0.35)
-            self.__modulate_stimuli_opacity__(stimuli3, self.frame, self.freq, self.screen_freq, 1.65)
+            self.__modulate_stimuli_opacity__(stimuli1, self.frame, 7.5, self.screen_freq, 0)
+            self.__modulate_stimuli_opacity__(stimuli2, self.frame, 12, self.screen_freq, 0)
+            self.__modulate_stimuli_opacity__(stimuli3, self.frame, 14, self.screen_freq, 0)
 
             window.flip()
 
@@ -54,7 +54,7 @@ class screen():
 
                 if self.start_frame >= self.screen_freq*5 and self.start_frame <= self.screen_freq*30:
                     if self.start_frame >= self.screen_freq*5 + self.classifier_timeframe*self.screen_freq:
-                        current_stimuli.value = 0.0
+                        current_stimuli.value = 7.5
                     marker1.draw()
 
                 elif self.start_frame <= self.screen_freq*35:
@@ -62,7 +62,7 @@ class screen():
 
                 elif self.start_frame >= self.screen_freq*35 and self.start_frame <= self.screen_freq*65:
                     if self.start_frame >= self.screen_freq*35 + self.classifier_timeframe*self.screen_freq:
-                        current_stimuli.value = 0.35
+                        current_stimuli.value = 12
                     marker2.draw()
 
                 elif self.start_frame <= self.screen_freq*70:
@@ -70,7 +70,7 @@ class screen():
 
                 elif self.start_frame >= self.screen_freq*70 and self.start_frame <= self.screen_freq*100:
                     if self.start_frame >= self.screen_freq*70 + self.classifier_timeframe*self.screen_freq:
-                        current_stimuli.value = 1.65
+                        current_stimuli.value = 14
                     marker3.draw()
 
                 elif self.start_frame <= self.screen_freq*105:
