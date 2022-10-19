@@ -7,7 +7,6 @@ from classifiers import classic_CCA
 from Settings import Config 
 from ReferenceSignal import ReferenceSignal as rs
 from multiprocessing import Process, Value, Event
-import DataService as ds
 import csv
 import screen as sc
 
@@ -16,27 +15,26 @@ def drawScreen(start_program, quit_program, current_stimuli):
     activeScreen = sc.screen()
     activeScreen.run(start_program, quit_program, current_stimuli)
 
-
-def gatherData(dataService, dataList, activeBoard):
-    dataService.get_data(dataList, activeBoard)
-
-def drawHello():
-    while True:
-        print('hello')
-
-def extract_data(dataList):
+def extract_data(dataList, name):
     with open('data.csv', 'w', newline='') as csvfile:
         label = ['channel_1','channel_2','channel_3','channel_4','channel_5','channel_6','channel_7','channel_8']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         for i in range(len(dataList[0])):
             theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i]})
 
-def extract_data_classifier(dataClassifier):
+def extract_data_classifier(dataClassifier, name):
     with open('dataClassifier.csv','w', newline='') as csvfile:
         label = ['rPearson', 'stimuli_predicted','stimuli']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         for i in range(len(dataClassifier[0])):
-            theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli':dataClassifier[2][i]})
+            if dataClassifier[2][i] != 42:
+                theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli':dataClassifier[2][i]})
+
+def extract_data_order_list(orderList, name):
+    with open(f'dataOrderList{name}.csv','w', newline='') as csvfile:
+        theWriter = csv.writer(csvfile)
+        for row in orderList:
+            theWriter.writerow(row)
 
 if __name__ == "__main__":
 
