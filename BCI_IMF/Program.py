@@ -42,7 +42,7 @@ def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
-    return order_list
+    return [1,2]
 
 
 if __name__ == "__main__":
@@ -98,6 +98,5 @@ if __name__ == "__main__":
     dataTest= activeBoard.active_board.get_board_data()[1:7,:]
     extract_data(dataTest,name)
     extract_data_classifier(dataClassifier,name)
-    extract_data_order_list([1,2,3,4,5,6,7,8,9],name)
     activeBoard.stop_streaming()
     print(temp)
