@@ -3,6 +3,7 @@ import live_plot as lp
 import time
 import matplotlib.pyplot as plt
 import numpy as np
+import random as rd
 from classifiers import classic_CCA
 from Settings import Config 
 from ReferenceSignal import ReferenceSignal as rs
@@ -11,9 +12,9 @@ import csv
 import screen as sc
 
 
-def drawScreen(start_program, quit_program, current_stimuli):
+def drawScreen(start_program, quit_program, current_stimuli, orderList):
     activeScreen = sc.screen()
-    activeScreen.run(start_program, quit_program, current_stimuli)
+    activeScreen.run(start_program, quit_program, current_stimuli, orderList)
 
 def extract_data(dataList, name):
     with open(f'data_{name}.csv', 'w', newline='') as csvfile:
@@ -37,11 +38,20 @@ def extract_data_order_list(orderList, name):
         theWriter = csv.writer(csvfile)
         theWriter.writerow(orderList)
 
+def generate_order_list(name):
+    order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
+    rd.shuffle(order_list)
+    extract_data_order_list(order_list, name)
+    return order_list
+
+
 if __name__ == "__main__":
 
     settings = Config()
 
     name = "test2"
+
+    orderList = generate_order_list(name)
 
     activeBoard = br.Board(settings)
 
@@ -59,7 +69,7 @@ if __name__ == "__main__":
     first = True
 
 
-    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli,))
+    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli, orderList))
     screenDisplay.start()
 
     temp = 0
@@ -88,6 +98,5 @@ if __name__ == "__main__":
     dataTest= activeBoard.active_board.get_board_data()[1:7,:]
     extract_data(dataTest,name)
     extract_data_classifier(dataClassifier,name)
-    extract_data_order_list([1,2,3,4,5,6,7,8,9],name)
     activeBoard.stop_streaming()
     print(temp)

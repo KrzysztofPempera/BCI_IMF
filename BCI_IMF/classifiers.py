@@ -10,7 +10,7 @@ class classic_CCA():
         self.n_components = n_components
         self.reference_signal = reference_signal
         self.sampling_rate = self.board.sampling_rate
-        self.frequecies = ["7.5", "12", "14"]
+        self.frequecies = ["7.5", "12", "10", "8.6", "6.7"]
         self.timeframe = timeframe
         
 
@@ -18,7 +18,7 @@ class classic_CCA():
         time = np.linspace(0, lenght/self.sampling_rate, self.timeframe*self.sampling_rate )
         ref_signal = []
         
-        frequencies = [7.5,12,14]
+        frequencies = [7.5,12,10,8.6,6.7]
 
         for freq in frequencies:
             temp_ref_signal = []
