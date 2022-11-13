@@ -36,7 +36,8 @@ def extract_data_classifier(dataClassifier):
         label = ['rPearson', 'stimuli_predicted','stimuli']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         for i in range(len(dataClassifier[0])):
-            theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli':dataClassifier[2][i]})
+            if dataClassifier[2][i] != 42:
+                theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli':dataClassifier[2][i]})
 
 if __name__ == "__main__":
 
