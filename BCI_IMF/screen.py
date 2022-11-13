@@ -32,7 +32,7 @@ class screen():
 
         window.flip()
 
-    def run(self, start_program, quit_program, current_stimuli):
+    def run(self, start_program, quit_program, current_stimuli, orderList):
 
         window = visual.Window([self.width,self.height], monitor = "testMonitor", units = 'pix', fullscr = False, color = [-1,-1,-1])
 
@@ -48,6 +48,8 @@ class screen():
         marker4 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(-350, -300))
         marker5 = visual.Rect(win = window, size = 30, units = 'pix', fillColor = [1,1,1], pos =(350, 300))
 
+        markerList = [marker1, marker2, marker3, marker4, marker5]
+
         welcomeText = visual.TextStim(win = window, text = "Podczas badania wyświetlone zostanie 5 migających kwadratów. Twoim zadaniem będzie skupienie wzroku, na kwardracie oznaczonym przez biały marker. Całość badania trwa 10 minut i jest podzielona na trzy ok. 3minutowe części. Po każdej z cześci nastąpi 3 minutowa przerwa. Naciśnij spację, aby rozpocząć.", height = 20)
         breakText = visual.TextStim(win = window, text = "Przerwa. Aby kontynuować, naciśnij spację.", height = 20)
         endText = visual.TextStim(win = window, text = "To koniec. Dziękujemy za udział w badaniu.", height = 20)
@@ -56,7 +58,7 @@ class screen():
         breakTime = False
 
         while True:
-
+            print(orderList)
             self.frame += 1
 
             if start_program.is_set() == False and self.start_frame < 1:
