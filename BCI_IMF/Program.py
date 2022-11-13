@@ -42,7 +42,7 @@ def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
-    return [1,2]
+    return order_list
 
 
 if __name__ == "__main__":
