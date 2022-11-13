@@ -87,9 +87,9 @@ class screen():
 
                 self.__modulate_stimuli_opacity__(stimuli1, self.start_frame, 7.5, self.screen_freq, 0)
                 self.__modulate_stimuli_opacity__(stimuli2, self.start_frame, 12, self.screen_freq, 0)
-                self.__modulate_stimuli_opacity__(stimuli3, self.start_frame, 14, self.screen_freq, 0)
-                self.__modulate_stimuli_opacity__(stimuli4, self.start_frame, 14, self.screen_freq, 0)
-                self.__modulate_stimuli_opacity__(stimuli5, self.start_frame, 14, self.screen_freq, 0)
+                self.__modulate_stimuli_opacity__(stimuli3, self.start_frame, 10, self.screen_freq, 0)
+                self.__modulate_stimuli_opacity__(stimuli4, self.start_frame, 8.6, self.screen_freq, 0)
+                self.__modulate_stimuli_opacity__(stimuli5, self.start_frame, 6.7, self.screen_freq, 0)
 
                 if self.start_frame >= self.screen_freq*5 and self.start_frame <= self.screen_freq*30:
                     if self.start_frame >= self.screen_freq*5 + self.classifier_timeframe*self.screen_freq:
