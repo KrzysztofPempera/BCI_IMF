@@ -60,6 +60,7 @@ class screen():
                 start_program.clear()
                 if start_program.is_set() == False:
                     breakText.draw()
+                
 
             window.flip()
 
@@ -89,8 +90,9 @@ class screen():
 
                 elif self.start_frame == self.screen_freq*31:
                     breakTime = True
+                    current_stimuli.value = 42
 
-                elif self.start_frame <= self.screen_freq*35:
+                elif self.start_frame < self.screen_freq*35:
                     current_stimuli.value = 42
 
                 elif self.start_frame >= self.screen_freq*35 and self.start_frame <= self.screen_freq*65:
