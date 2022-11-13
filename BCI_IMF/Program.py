@@ -16,29 +16,32 @@ def drawScreen(start_program, quit_program, current_stimuli):
     activeScreen.run(start_program, quit_program, current_stimuli)
 
 def extract_data(dataList, name):
-    with open('data.csv', 'w', newline='') as csvfile:
+    with open(f'data_{name}.csv', 'w', newline='') as csvfile:
         label = ['channel_1','channel_2','channel_3','channel_4','channel_5','channel_6','channel_7','channel_8']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
+        theWriter.writeheader()
         for i in range(len(dataList[0])):
             theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i]})
 
 def extract_data_classifier(dataClassifier, name):
-    with open('dataClassifier.csv','w', newline='') as csvfile:
-        label = ['rPearson', 'stimuli_predicted','stimuli']
+    with open(f'dataClassifier_{name}.csv','w', newline='') as csvfile:
+        label = ['rPearson', 'stimuli_predicted','stimuli_displayed']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
+        theWriter.writeheader()
         for i in range(len(dataClassifier[0])):
             if dataClassifier[2][i] != 42:
-                theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli':dataClassifier[2][i]})
+                theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli_displayed':dataClassifier[2][i]})
 
 def extract_data_order_list(orderList, name):
-    with open(f'dataOrderList{name}.csv','w', newline='') as csvfile:
+    with open(f'dataOrderList_{name}.csv','w', newline='') as csvfile:
         theWriter = csv.writer(csvfile)
-        for row in orderList:
-            theWriter.writerow(row)
+        theWriter.writerow(orderList)
 
 if __name__ == "__main__":
 
     settings = Config()
+
+    name = "test2"
 
     activeBoard = br.Board(settings)
 
@@ -51,10 +54,6 @@ if __name__ == "__main__":
     quit_program = Event()
     current_stimuli = Value('d',0.0)
     
-    #refSignalGen = rs(settings)
-
-    #refSignal = refSignalGen.createReferenceSignals() 
-
     classifier = classic_CCA(1, 5, activeBoard)
 
     first = True
@@ -87,13 +86,8 @@ if __name__ == "__main__":
                 break
 
     dataTest= activeBoard.active_board.get_board_data()[1:7,:]
-    extract_data(dataTest)
-    extract_data_classifier(dataClassifier)
+    extract_data(dataTest,name)
+    extract_data_classifier(dataClassifier,name)
+    extract_data_order_list([1,2,3,4,5,6,7,8,9],name)
     activeBoard.stop_streaming()
     print(temp)
-
-
-
-
-    #plot = lp.LivePlot(8,a_board)
-    #plot.run()
