@@ -42,8 +42,21 @@ def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
-    return order_list
+    return [0]
 
+def append_displayed_stimuli(data, stimuli):
+    y = data.shape[1]
+    stimuliList = np.array([stimuli]*y)
+    print(len(stimuliList))
+    appendedList = np.vstack((data, stimuliList))
+    return appendedList
+
+def append_data_list(data, currentData):
+    newData = np.array
+    for i in range (data.shape[0]):
+        dataTemp = np.append(data[i],currentData[i])
+        newData = np.vstack((newData, dataTemp))
+    return newData
 
 if __name__ == "__main__":
 
@@ -95,8 +108,12 @@ if __name__ == "__main__":
                 screenDisplay.join()
                 break
 
-    dataTest= activeBoard.active_board.get_board_data()[1:7,:]
+    dataTest = activeBoard.active_board.get_board_data()[1:7,:]
     extract_data(dataTest,name)
+    print(dataTest.shape[0],dataTest.shape[1], dataTest.shape)
+    test = append_displayed_stimuli(dataTest,15)
+    test2 = append_displayed_stimuli(dataTest,14)
+    test3 = append_data_list(test, test2)
     extract_data_classifier(dataClassifier,name)
     activeBoard.stop_streaming()
     print(temp)
