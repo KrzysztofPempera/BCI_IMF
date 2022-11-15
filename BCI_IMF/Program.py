@@ -52,10 +52,12 @@ def append_displayed_stimuli(data, stimuli):
     return appendedList
 
 def append_data_list(data, currentData):
-    newData = np.array
+    newData = []
     for i in range (data.shape[0]):
         dataTemp = np.append(data[i],currentData[i])
-        newData = np.vstack((newData, dataTemp))
+        newData.append(dataTemp)
+
+    newData = np.array(newData)
     return newData
 
 if __name__ == "__main__":
