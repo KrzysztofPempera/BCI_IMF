@@ -12,17 +12,17 @@ import csv
 import screen as sc
 
 
-def drawScreen(start_program, quit_program, current_stimuli, orderList):
+def drawScreen(start_program, quit_program, current_stimuli, orderList, save_data):
     activeScreen = sc.screen()
-    activeScreen.run(start_program, quit_program, current_stimuli, orderList)
+    activeScreen.run(start_program, quit_program, current_stimuli, orderList, save_data)
 
 def extract_data(dataList, name):
     with open(f'data_{name}.csv', 'w', newline='') as csvfile:
-        label = ['channel_1','channel_2','channel_3','channel_4','channel_5','channel_6','channel_7','channel_8']
+        label = ['channel_1','channel_2','channel_3','channel_4','channel_5','channel_6','channel_7','channel_8','stimuli_displayed']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         theWriter.writeheader()
         for i in range(len(dataList[0])):
-            theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i]})
+            theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i],'channel_7':dataList[6][i],'channel_8':dataList[7][i],'stimuli_displayed':dataList[8][i]})
 
 def extract_data_classifier(dataClassifier, name):
     with open(f'dataClassifier_{name}.csv','w', newline='') as csvfile:
@@ -44,6 +44,21 @@ def generate_order_list(name):
     extract_data_order_list(order_list, name)
     return order_list
 
+def append_displayed_stimuli(data, stimuli):
+    y = data.shape[1]
+    stimuliList = np.array([stimuli]*y)
+    print(len(stimuliList))
+    appendedList = np.vstack((data, stimuliList))
+    return appendedList
+
+def append_data_list(data, currentData):
+    newData = []
+    for i in range (currentData.shape[0]):
+        dataTemp = np.append(data[i],currentData[i])
+        newData.append(dataTemp)
+
+    newData = np.array(newData)
+    return newData
 
 if __name__ == "__main__":
 
@@ -57,19 +72,21 @@ if __name__ == "__main__":
 
     activeBoard.start_streaming()
 
-    data = [[] for i in range(6)]
     dataClassifier = [[] for i in range(3)]
+    boardData = np.array([[],[],[],[],[],[],[],[],[]])
+    currentData = np.array([])
 
     start_program = Event()
     quit_program = Event()
-    current_stimuli = Value('d',0.0)
+    save_data = Event()
+    current_stimuli = Value('d',42)
     
     classifier = classic_CCA(1, 5, activeBoard)
 
     first = True
 
 
-    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli, orderList))
+    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli, orderList, save_data, ))
     screenDisplay.start()
 
     temp = 0
@@ -80,14 +97,21 @@ if __name__ == "__main__":
                 dataDump = activeBoard.active_board.get_board_data()
                 time.sleep(5.5)
                 first = False
-        
+            
+            if save_data.is_set():
+                save_data.clear()
+                currentData = activeBoard.get_streaming_data(30)
+                appendedData = append_displayed_stimuli(currentData, current_stimuli.value)
+                print(current_stimuli.value,appendedData.shape)
+                boardData = append_data_list(boardData, appendedData)
+                
             temp += 1
             result = classifier.process()
 
             dataClassifier[0].append(result[0])
             dataClassifier[1].append(result[1])
             dataClassifier[2].append(current_stimuli.value)
-            print(result, current_stimuli.value)
+            #print(result, current_stimuli.value)
 
 
             if quit_program.is_set():
@@ -95,8 +119,17 @@ if __name__ == "__main__":
                 screenDisplay.join()
                 break
 
-    dataTest= activeBoard.active_board.get_board_data()[1:7,:]
-    extract_data(dataTest,name)
+    extract_data(boardData,name)
+    print(boardData.shape)
     extract_data_classifier(dataClassifier,name)
     activeBoard.stop_streaming()
-    print(temp)
+
+    accuracy = 0
+
+    for i in range(len(dataClassifier[2])):
+        if dataClassifier[1] == dataClassifier[2]:
+            accuracy += 1
+
+    accuracy = (100 * accuracy) / len(dataClassifier[2])
+
+    print(accuracy)

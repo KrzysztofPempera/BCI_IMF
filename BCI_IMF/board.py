@@ -34,7 +34,7 @@ class Board():
 
     def get_streaming_data(self, timeframe):
         data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
-        data = data[1:7,:]
+        data = data[1:9,:]
 
         return data
         

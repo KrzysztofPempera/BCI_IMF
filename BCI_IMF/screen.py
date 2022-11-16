@@ -32,7 +32,8 @@ class screen():
 
         window.flip()
 
-    def run(self, start_program, quit_program, current_stimuli, orderList):
+
+    def run(self, start_program, quit_program, current_stimuli, orderList, save_data):
 
         window = visual.Window([self.width,self.height], monitor = "testMonitor", units = 'pix', fullscr = False, color = [-1,-1,-1])
 
@@ -96,14 +97,17 @@ class screen():
                 self.__modulate_stimuli_opacity__(stimuli4, self.frame, 8.6, self.screen_freq, 0)
                 self.__modulate_stimuli_opacity__(stimuli5, self.frame, 6.7, self.screen_freq, 0)
 
-                if len(orderList) == 0:
+                if self.start_frame >= self.screen_freq*5 and self.start_frame < self.screen_freq*35:
+                    markerList[stimuliIndex].draw()
+                    current_stimuli.value = frequencyList[stimuliIndex]
+
+                elif self.start_frame == self.screen_freq*35:
+                    save_data.set()
+
+                elif len(orderList) == 0:
                     quit_program.set()
                     core.quit()
                     break
-
-                if self.start_frame >= self.screen_freq*5 and self.start_frame <= self.screen_freq*35:
-                    markerList[stimuliIndex].draw()
-                    current_stimuli.value = frequencyList[stimuliIndex]
 
                 elif len(orderList)%7 == 0 and len(orderList) != 0:
                     breakTime = True
@@ -117,45 +121,6 @@ class screen():
                 elif self.start_frame == self.screen_freq*36:
                     stimuliIndex = orderList.pop()
                     self.start_frame = self.screen_freq*5
-
-
-                #if self.start_frame >= self.screen_freq*5 and self.start_frame <= self.screen_freq*30:
-                #    if self.start_frame >= self.screen_freq*5 + self.classifier_timeframe*self.screen_freq:
-                #        current_stimuli.value = 7.5
-                #    marker1.draw()
-                #    marker2.draw()
-                #    marker3.draw()
-                #    marker4.draw()
-                #    marker5.draw()
-
-                #elif self.start_frame == self.screen_freq*31:
-                #    breakTime = True
-                #    current_stimuli.value = 42
-
-                #elif self.start_frame < self.screen_freq*35:
-                #    current_stimuli.value = 42
-
-                #elif self.start_frame >= self.screen_freq*35 and self.start_frame <= self.screen_freq*65:
-                #    if self.start_frame >= self.screen_freq*35 + self.classifier_timeframe*self.screen_freq:
-                #        current_stimuli.value = 12
-                #    marker2.draw()
-
-                #elif self.start_frame <= self.screen_freq*70:
-                #    current_stimuli.value = 42
-
-                #elif self.start_frame >= self.screen_freq*70 and self.start_frame <= self.screen_freq*100:
-                #    if self.start_frame >= self.screen_freq*70 + self.classifier_timeframe*self.screen_freq:
-                #        current_stimuli.value = 14
-                #    marker3.draw()
-
-                #elif self.start_frame <= self.screen_freq*105:
-                #    current_stimuli.value = 42
-
-
-                #elif self.start_frame > self.screen_freq*105:
-                #    quit_program.set()
-                #    core.quit()
-                #    break
                 
 
 
