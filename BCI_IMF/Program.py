@@ -22,7 +22,7 @@ def extract_data(dataList, name):
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         theWriter.writeheader()
         for i in range(len(dataList[0])):
-            theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i],'stimuli_displayed':dataList[6][i]})
+            theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i],'channel_7':dataList[6][i],'channel_8':dataList[7][i],'stimuli_displayed':dataList[8][i]})
 
 def extract_data_classifier(dataClassifier, name):
     with open(f'dataClassifier_{name}.csv','w', newline='') as csvfile:
@@ -42,7 +42,7 @@ def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
-    return [1,2,3]
+    return order_list
 
 def append_displayed_stimuli(data, stimuli):
     y = data.shape[1]
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     activeBoard.start_streaming()
 
     dataClassifier = [[] for i in range(3)]
-    boardData = np.array([[],[],[],[],[],[],[]])
+    boardData = np.array([[],[],[],[],[],[],[],[],[]])
     currentData = np.array([])
 
     start_program = Event()
