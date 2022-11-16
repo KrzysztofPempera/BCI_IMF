@@ -42,7 +42,7 @@ def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
-    return order_list
+    return [1,2,3]
 
 def append_displayed_stimuli(data, stimuli):
     y = data.shape[1]
@@ -123,4 +123,13 @@ if __name__ == "__main__":
     print(boardData.shape)
     extract_data_classifier(dataClassifier,name)
     activeBoard.stop_streaming()
-    print(temp)
+
+    accuracy = 0
+
+    for i in range(len(dataClassifier[2])):
+        if dataClassifier[1] == dataClassifier[2]:
+            accuracy += 1
+
+    accuracy = (100 * accuracy) / len(dataClassifier[2])
+
+    print(accuracy)
