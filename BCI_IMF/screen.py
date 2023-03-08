@@ -101,13 +101,13 @@ class screen():
                     markerList[stimuliIndex].draw()
                     current_stimuli.value = frequencyList[stimuliIndex]
 
-                elif self.start_frame == self.screen_freq*35:
-                    save_data.set()
-
-                elif len(orderList) == 0:
+                elif len(orderList) == 0 and stimuliIndex == 42:
                     quit_program.set()
                     core.quit()
                     break
+
+                elif self.start_frame == self.screen_freq*35:
+                    save_data.set()
 
                 elif len(orderList)%7 == 0 and len(orderList) != 0:
                     breakTime = True

@@ -42,6 +42,8 @@ def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
+    order_list.append(42)
+    print(order_list)
     return order_list
 
 def append_displayed_stimuli(data, stimuli):
