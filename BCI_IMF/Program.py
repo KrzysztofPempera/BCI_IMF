@@ -12,9 +12,9 @@ import csv
 import screen as sc
 
 
-def drawScreen(start_program, quit_program, current_stimuli, orderList, save_data):
+def drawScreen(start_program, quit_program, current_stimuli, last_stimuli, orderList, save_data):
     activeScreen = sc.screen()
-    activeScreen.run(start_program, quit_program, current_stimuli, orderList, save_data)
+    activeScreen.run(start_program, quit_program, current_stimuli, last_stimuli, orderList, save_data)
 
 def extract_data(dataList, name):
     with open(f'data_{name}.csv', 'w', newline='') as csvfile:
@@ -22,7 +22,7 @@ def extract_data(dataList, name):
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         theWriter.writeheader()
         for i in range(len(dataList[0])):
-            theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'channel_5':dataList[4][i],'channel_6':dataList[5][i],'channel_7':dataList[6][i],'channel_8':dataList[7][i],'stimuli_displayed':dataList[8][i]})
+            theWriter.writerow({'channel_1':dataList[0][i], 'channel_2':dataList[1][i],'channel_3':dataList[2][i],'channel_4':dataList[3][i],'stimuli_displayed':dataList[4][i]})
 
 def extract_data_classifier(dataClassifier, name):
     with open(f'dataClassifier_{name}.csv','w', newline='') as csvfile:
@@ -40,9 +40,10 @@ def extract_data_order_list(orderList, name):
 
 def generate_order_list(name):
     order_list = [0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4]
+    #order_list = [0,1,2,3,4]
     rd.shuffle(order_list)
     extract_data_order_list(order_list, name)
-    order_list.append(42)
+    order_list.insert(0,42)
     print(order_list)
     return order_list
 
@@ -66,7 +67,7 @@ if __name__ == "__main__":
 
     settings = Config()
 
-    name = "test2"
+    name = "testFinal"
 
     orderList = generate_order_list(name)
 
@@ -82,13 +83,14 @@ if __name__ == "__main__":
     quit_program = Event()
     save_data = Event()
     current_stimuli = Value('d',42)
+    last_stimuli = Value('d', 42)
     
     classifier = classic_CCA(1, 5, activeBoard)
 
     first = True
 
 
-    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli, orderList, save_data, ))
+    screenDisplay = Process(target = drawScreen, args = (start_program, quit_program, current_stimuli, last_stimuli, orderList, save_data, ))
     screenDisplay.start()
 
     temp = 0
@@ -104,7 +106,7 @@ if __name__ == "__main__":
                 save_data.clear()
                 currentData = activeBoard.get_streaming_data(30)
                 appendedData = append_displayed_stimuli(currentData, current_stimuli.value)
-                print(current_stimuli.value,appendedData.shape)
+                print(current_stimuli.value, appendedData.shape)
                 boardData = append_data_list(boardData, appendedData)
                 
             temp += 1

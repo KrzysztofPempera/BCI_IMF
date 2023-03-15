@@ -25,8 +25,8 @@ class Board():
 
     def filter_data(self, data):
         for dat in data:
-            DataFilter.perform_bandstop(dat, self.sampling_rate, 50, 2, 2, FilterTypes.BUTTERWORTH.value, 0)
-            DataFilter.perform_bandpass(dat, self.sampling_rate, 19, 26, 2, FilterTypes.BUTTERWORTH.value, 0)
+            DataFilter.perform_bandstop(dat, self.sampling_rate, 49, 51, 2, FilterTypes.BUTTERWORTH.value, 0)
+            DataFilter.perform_bandpass(dat, self.sampling_rate, 7, 26, 2, FilterTypes.BUTTERWORTH.value, 0)
 
         
 
@@ -34,7 +34,7 @@ class Board():
 
     def get_streaming_data(self, timeframe):
         data = self.active_board.get_current_board_data(self.sampling_rate*timeframe)
-        data = data[1:9,:]
+        data = data[1:5,:]
 
         return data
         

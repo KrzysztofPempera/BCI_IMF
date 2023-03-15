@@ -39,7 +39,7 @@ class classic_CCA():
 
         correlations = np.zeros(reference_signal.shape[0])
 
-        cca_data = np.array(data[:]).reshape(8,1250)
+        cca_data = np.array(data[:]).reshape(4,1000)
 
         for i in range(0,reference_signal.shape[0]):
             freq = np.squeeze(reference_signal[i,:,:]).T
