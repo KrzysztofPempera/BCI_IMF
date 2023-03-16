@@ -18,7 +18,7 @@ def drawScreen(start_program, quit_program, current_stimuli, last_stimuli, order
 
 def extract_data(dataList, name):
     with open(f'data_{name}.csv', 'w', newline='') as csvfile:
-        label = ['channel_1','channel_2','channel_3','channel_4','channel_5','channel_6','channel_7','channel_8','stimuli_displayed']
+        label = ['channel_1','channel_2','channel_3','channel_4', 'stimuli_displayed']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
         theWriter.writeheader()
         for i in range(len(dataList[0])):
