@@ -53,8 +53,7 @@ class classic_CCA():
 
         return correlations
 
-    def process(self):
-        dataUn = self.board.get_streaming_data(self.timeframe)
+    def process(self, dataUn):
 
         data = self.board.filter_data(dataUn)
 

@@ -39,9 +39,6 @@
     <Compile Include="ReferenceSignal.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="screen.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Settings.py">
       <SubType>Code</SubType>
     </Compile>
