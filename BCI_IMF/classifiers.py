@@ -1,15 +1,15 @@
 import numpy as np
 import sklearn.cross_decomposition as sk
 import sys
+from brainflow.data_filter import DataFilter, FilterTypes
 
 np.set_printoptions(threshold=sys.maxsize)
 
 class classic_CCA():
-    def __init__(self, n_components, timeframe, board, reference_signal = None):
-        self.board = board
+    def __init__(self, n_components, timeframe, reference_signal = None):
         self.n_components = n_components
         self.reference_signal = reference_signal
-        self.sampling_rate = self.board.sampling_rate
+        self.sampling_rate = 200
         self.frequecies = ["7.5", "12", "10", "8.6", "6.7"]
         self.timeframe = timeframe
         
@@ -39,7 +39,7 @@ class classic_CCA():
 
         correlations = np.zeros(reference_signal.shape[0])
 
-        cca_data = np.array(data[:]).reshape(4,1000)
+        cca_data = np.array(data[:]).reshape(4,200)
 
         for i in range(0,reference_signal.shape[0]):
             freq = np.squeeze(reference_signal[i,:,:]).T
@@ -55,7 +55,7 @@ class classic_CCA():
 
     def process(self, dataUn):
 
-        data = self.board.filter_data(dataUn)
+        data = self.filter_data(dataUn)
 
         ref_signal = self.generate_ref_signal(data.shape[1])
         
@@ -67,3 +67,12 @@ class classic_CCA():
 
 
         return max_correlation, frequency
+
+    def filter_data(self, data):
+        for dat in data:
+            DataFilter.perform_bandstop(dat, self.sampling_rate, 49, 51, 2, FilterTypes.BUTTERWORTH.value, 0)
+            DataFilter.perform_bandpass(dat, self.sampling_rate, 7, 26, 2, FilterTypes.BUTTERWORTH.value, 0)
+
+        
+
+        return data

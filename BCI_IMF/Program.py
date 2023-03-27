@@ -8,11 +8,20 @@ from ReferenceSignal import ReferenceSignal as rs
 import csv
 
 def import_data():
-    data = np.loadtxt(open("data_W1S5S.csv", "rb"), delimiter=',', skiprows=1)
-    return data
+    data = np.loadtxt(open("data_testFinal.csv", "rb"), delimiter=',', skiprows=1)
+    return data.T
+
+def calculate_accuracy(data):
+    i = 0
+    data = data.T
+    for row in data:
+        if row[1] == row[2]:
+            i += 1
+    accuracy = (i*100)/data.shape[0]
+    return accuracy
 
 
-def extract_data_classifier(dataClassifier, name):
+def extract_data_classifier(dataClassifier, name, accuracy):
     with open(f'dataClassifier_{name}.csv','w', newline='') as csvfile:
         label = ['rPearson', 'stimuli_predicted','stimuli_displayed']
         theWriter = csv.DictWriter(csvfile, fieldnames = label)
@@ -20,6 +29,7 @@ def extract_data_classifier(dataClassifier, name):
         for i in range(len(dataClassifier[0])):
             if dataClassifier[2][i] != 42:
                 theWriter.writerow({'rPearson':dataClassifier[0][i],'stimuli_predicted':dataClassifier[1][i],'stimuli_displayed':dataClassifier[2][i]})
+        theWriter.writerow({'rPearson':accuracy})
 
 def extract_data_order_list(orderList, name):
     with open(f'dataOrderList_{name}.csv','w', newline='') as csvfile:
@@ -46,27 +56,32 @@ def append_data_list(data, currentData):
 if __name__ == "__main__":
 
  
-    name = "test"
+    name = "Result_1S_offline_weronika_100"
 
     data = import_data()
 
     dataClassifier = [[] for i in range(3)]
-    
-    classifier = classic_CCA(1, 5)
+    classifier = classic_CCA(1, 1)
 
-    first = True
+    maxIt = data.shape[1]-1000
 
+    for i in range(0, maxIt, 100):
+        dataArray = []
+        for array in data:
+            dataArray.append(array[i:200+i])
+        dataArray = np.array(dataArray)
+        currentStimuli = dataArray[4][1]
+        dataArray = dataArray[:-1]
 
-    #while True: 
-    #    temp += 1
-    #    result = classifier.process(data)
+        result = classifier.process(dataArray)
+        dataClassifier[0].append(result[0])
+        dataClassifier[1].append(result[1])
+        dataClassifier[2].append(currentStimuli)
 
-    #    dataClassifier[0].append(result[0])
-    #    dataClassifier[1].append(result[1])
-    #    dataClassifier[2].append(data[4])
+        print(i)
 
-
-
-    #extract_data_classifier(dataClassifier,name)
+    accuracy = calculate_accuracy(np.array(dataClassifier))
+    print(accuracy)
+    extract_data_classifier(dataClassifier, name, accuracy)
 
 
