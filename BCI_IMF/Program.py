@@ -16,6 +16,15 @@ def drawScreen(start_program, quit_program, current_stimuli, last_stimuli, order
     activeScreen = sc.screen()
     activeScreen.run(start_program, quit_program, current_stimuli, last_stimuli, orderList, save_data)
 
+def calculate_accuracy(data):
+    i = 0
+    data = data.T
+    for row in data:
+        if row[1] == row[2]:
+            i += 1
+    accuracy = (i*100)/data.shape[0]
+    return accuracy
+
 def extract_data(dataList, name):
     with open(f'data_{name}.csv', 'w', newline='') as csvfile:
         label = ['channel_1','channel_2','channel_3','channel_4', 'stimuli_displayed']
@@ -67,7 +76,7 @@ if __name__ == "__main__":
 
     settings = Config()
 
-    name = "testFinal"
+    name = "data_krzysztof_5S_test"
 
     orderList = generate_order_list(name)
 
@@ -128,12 +137,5 @@ if __name__ == "__main__":
     extract_data_classifier(dataClassifier,name)
     activeBoard.stop_streaming()
 
-    accuracy = 0
-
-    for i in range(len(dataClassifier[2])):
-        if dataClassifier[1] == dataClassifier[2]:
-            accuracy += 1
-
-    accuracy = (100 * accuracy) / len(dataClassifier[2])
-
+    accuracy = calculate_accuracy(np.array(dataClassifier))
     print(accuracy)
