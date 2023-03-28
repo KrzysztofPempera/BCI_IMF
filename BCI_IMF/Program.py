@@ -8,7 +8,7 @@ from ReferenceSignal import ReferenceSignal as rs
 import csv
 
 def import_data():
-    data = np.loadtxt(open("data_testFinal.csv", "rb"), delimiter=',', skiprows=1)
+    data = np.loadtxt(open("data_data_krzysztof_5S_test.csv", "rb"), delimiter=',', skiprows=1)
     return data.T
 
 def calculate_accuracy(data):
@@ -56,19 +56,19 @@ def append_data_list(data, currentData):
 if __name__ == "__main__":
 
  
-    name = "Result_1S_offline_weronika_100"
+    name = "Result_5S_offline_krz_2"
 
     data = import_data()
 
     dataClassifier = [[] for i in range(3)]
-    classifier = classic_CCA(1, 1)
+    classifier = classic_CCA(1, 5)
 
     maxIt = data.shape[1]-1000
 
-    for i in range(0, maxIt, 100):
+    for i in range(0, maxIt, 2):
         dataArray = []
         for array in data:
-            dataArray.append(array[i:200+i])
+            dataArray.append(array[i:1000+i])
         dataArray = np.array(dataArray)
         currentStimuli = dataArray[4][1]
         dataArray = dataArray[:-1]
