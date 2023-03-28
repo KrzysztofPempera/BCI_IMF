@@ -8,7 +8,7 @@ from ReferenceSignal import ReferenceSignal as rs
 import csv
 
 def import_data():
-    data = np.loadtxt(open("data_data_krzysztof_5S_test.csv", "rb"), delimiter=',', skiprows=1)
+    data = np.loadtxt(open("data_W.csv", "rb"), delimiter=',', skiprows=1)
     return data.T
 
 def calculate_accuracy(data):
@@ -56,7 +56,7 @@ def append_data_list(data, currentData):
 if __name__ == "__main__":
 
  
-    name = "Result_5S_offline_krz_2"
+    name = "Result_5S_offline_krz_50"
 
     data = import_data()
 
@@ -65,7 +65,9 @@ if __name__ == "__main__":
 
     maxIt = data.shape[1]-1000
 
-    for i in range(0, maxIt, 2):
+    nAccuracy = 0
+
+    for i in range(0, maxIt, 50):
         dataArray = []
         for array in data:
             dataArray.append(array[i:1000+i])
@@ -78,9 +80,12 @@ if __name__ == "__main__":
         dataClassifier[1].append(result[1])
         dataClassifier[2].append(currentStimuli)
 
+        if (result[1] == str(currentStimuli)):
+            nAccuracy += 1
+
         print(i)
 
-    accuracy = calculate_accuracy(np.array(dataClassifier))
+    accuracy = (nAccuracy*100)/len(dataClassifier[1])
     print(accuracy)
     extract_data_classifier(dataClassifier, name, accuracy)
 

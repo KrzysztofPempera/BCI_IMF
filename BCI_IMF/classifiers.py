@@ -10,7 +10,7 @@ class classic_CCA():
         self.n_components = n_components
         self.reference_signal = reference_signal
         self.sampling_rate = 200
-        self.frequecies = ["7.5", "12", "10", "8.6", "6.7"]
+        self.frequecies = ["7.5", "12.0", "10.0", "8.6", "6.7"]
         self.timeframe = timeframe
         
 
