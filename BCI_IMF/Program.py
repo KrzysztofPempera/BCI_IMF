@@ -124,7 +124,9 @@ if __name__ == "__main__":
             dataClassifier[0].append(result[0])
             dataClassifier[1].append(result[1])
             dataClassifier[2].append(current_stimuli.value)
-            #print(result, current_stimuli.value)
+            if (result[1] == str(currentStimuli)):
+                nAccuracy += 1
+
 
 
             if quit_program.is_set():
@@ -137,5 +139,5 @@ if __name__ == "__main__":
     extract_data_classifier(dataClassifier,name)
     activeBoard.stop_streaming()
 
-    accuracy = calculate_accuracy(np.array(dataClassifier))
+    accuracy = (nAccuracy*100)/len(dataClassifier[1])
     print(accuracy)
